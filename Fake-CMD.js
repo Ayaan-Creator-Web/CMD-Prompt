@@ -1,7 +1,7 @@
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.1.4';
+const version = '1.1.5';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();
@@ -184,7 +184,7 @@ async function reply(command) {
     else if (command == 'history') {
         if (error != 3) {
             if (history.length != 0) {
-                CMDreply = history;
+                CMDreply = CMDreply = history.join('\n');
             }
             else {
                 error = 1;

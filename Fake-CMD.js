@@ -1,7 +1,7 @@
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.1.1';
+const version = '1.1.2';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();
@@ -126,29 +126,54 @@ async function reply(command) {
         CMDreply = version;
     }
     else if (command.includes('square ')) {
-        CMDreply = (command.replace(/square /gi, '')) ** 2;
+        var without = (command.replace(/square /gi, ''));
+        if (isNaN(without)) {
+            error = 1;
+            CMDreply = `Error - '${without}' is not a number`;
+        }
+        else {
+            CMDreply = without;
+        }
     }
     else if (command.includes('isEven ')) {
         var without = (command.replace(/isEven /gi, ''));
-        if (without % 2 == 0) {
-            CMDreply = true;
+        if (isNaN(without)) {
+            error = 1;
+            CMDreply = `Error - '${without}' is not a number`;
         }
         else {
-            CMDreply = false;
+            if (without % 2 == 0) {
+                CMDreply = true;
+            }
+            else {
+                CMDreply = false;
+            }
         }
     }
     else if (command.includes('isOdd ')) {
         var without = (command.replace(/isOdd /gi, ''));
-        if (without % 2 == 0) {
-            CMDreply = false;
+        if (isNaN(without)) {
+            error = 1;
+            CMDreply = `Error - '${without}' is not a number`;
         }
         else {
-            CMDreply = true;
+            if (without % 2 == 0) {
+                CMDreply = false;
+            }
+            else {
+                CMDreply = true;
+            }
         }
     }
     else if (command.includes('Math ')) {
         var without = command.replace(/Math /gi, '');
-        CMDreply = eval(without);
+        if (isNaN(without)) {
+            error = 1;
+            CMDreply = `Error - '${without}' is not an equation`;
+        }
+        else {
+            CMDreply = eval(without);
+        }
        //CMDreply = 'Math has not been released yet';
     }
     else if (command == 'explain' || command == 'explain ') {

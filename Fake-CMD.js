@@ -1,7 +1,7 @@
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.1.3';
+const version = '1.1.4';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();
@@ -166,15 +166,14 @@ async function reply(command) {
         }
     }
     else if (command.includes('Math ')) {
-        var without = command.replace(/Math /gi, '');
-        if (isNaN(without)) {
-            error = 1;
-            CMDreply = `Error - '${without}' is not an equation`;
-        }
-        else {
-            CMDreply = eval(without);
-        }
-       //CMDreply = 'Math has not been released yet';
+            var without = command.replace(/Math /gi, '');
+            try {
+                CMDreply = eval(without);
+            }
+            catch {
+                error = 1;
+                CMDreply = `Error - '${without}' is not a valid expression`;
+            }  
     }
     else if (command == 'explain' || command == 'explain ') {
         if (error != 3) {

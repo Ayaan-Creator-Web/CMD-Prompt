@@ -1,7 +1,7 @@
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = 'Release Candidate 2';
+const version = '1.1.1';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();

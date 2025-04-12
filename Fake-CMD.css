@@ -1,0 +1,35 @@
+.text-input {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    color:white;
+}
+.reply {
+    font-family: 'Courier New', Courier, monospace;
+    color:white;
+}
+
+.spacing {
+    margin: 20px;
+}
+
+body {
+    background-color: rgb(0, 0, 0);
+}
+
+.input {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    color:rgb(255, 255, 255);
+    background-color: black;
+    border-color: white;
+}
+
+.error-reply {
+    font-family: 'Courier New', Courier, monospace;
+    color:rgb(255, 35, 35);
+}
+
+.success-reply {
+    font-family: 'Courier New', Courier, monospace;
+    color:rgb(97, 255, 35);
+}

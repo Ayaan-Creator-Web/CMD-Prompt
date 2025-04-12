@@ -29,7 +29,7 @@ async function input() {
 
 async function reply(command) {
     if (command == 'help') {
-        CMDreply = "Commands include: help, echo, print, status, shout, time, date, exit, ver, version, isOdd, isEven & Math. Type 'explain ...' to learn what these features do.";
+        CMDreply = "Commands include: help, stop, square, echo, print, status, shout, time, date, exit, ver, version, isOdd, isEven & Math. Type 'explain ...' to learn what these features do.";
     }
     else if (command.includes('echo ')) {
         CMDreply = command.replace(/echo /gi, '');
@@ -40,7 +40,7 @@ async function reply(command) {
             CMDreply = "Repeats whatever is typed after 'echo'.";
         }
         else if (explain == 'print') {
-            CMDreply = "Closes the terminal's simulated interface.";
+            CMDreply = "Prints the terminal";
         }
         else if (explain == 'status') {
             CMDreply = "Displays the system status like 'running perfectly' or 'overheating'.";
@@ -81,9 +81,14 @@ async function reply(command) {
         else if (explain == 'cls history') {
             CMDreply = "Clears the entire command history.";
         }
+        else if (explain == 'stop') {
+            CMDreply = "Disables terminal.";
+        }
         else {
-            error = 1;
-            CMDreply = `Error - No explanation found for '${explain}'.`;
+            if (error != 3) {
+                error = 1;
+                CMDreply = `Error - No explanation found for '${explain}'.`;
+            }
         }        
     }
     else if (command == ('print')) {
@@ -147,33 +152,46 @@ async function reply(command) {
        //CMDreply = 'Math has not been released yet';
     }
     else if (command == 'explain' || command == 'explain ') {
-        error = 1;
-        CMDreply = "Error - 'explain' must be followed by a command.";
+        if (error != 3) {
+            error = 1;
+            CMDreply = "Error - 'explain' must be followed by a command.";
+        }
     }
     else if (command == 'history') {
-        if (history.length != 0) {
-            CMDreply = history;
-        }
-        else {
-            error = 1;
-            CMDreply = `Error - '${command}' is empty`;
+        if (error != 3) {
+            if (history.length != 0) {
+                CMDreply = history;
+            }
+            else {
+                error = 1;
+                CMDreply = `Error - '${command}' is empty`;
+            }
         }
     }
     else if (command == 'cls history') {
-        if (history.length != 0) {
-            error = 2;
-            history = [];
-            CMDreply = 'History Cleared Successfully';
+        if (error != 3) {
+            if (history.length != 0) {
+                error = 2;
+                history = [];
+                CMDreply = 'History Cleared Successfully';
+            }
+            else {
+                error = 1;
+                CMDreply = `Error - 'history' is already empty`;
+            }
         }
-        else {
-            error = 1;
-            CMDreply = `Error - 'history' is already empty`;
-        }
-    //var formattedHistory = history.replace(/,/gi, ' - ');
+    }
+    else if (command == 'stop') {
+        CMDreply = 'The terminal has stopped';
+        console.log('Terminal has stopped');
+        await delay(260);
+        error = 3;
     }
     else {
-        error = 1;
-        CMDreply = "Error - '" + command + "' is not a proper command.";
+        if (error != 3) {
+            error = 1;
+            CMDreply = "Error - '" + command + "' is not a proper command.";
+        }
     }
 
     if (command.includes('history')) {
@@ -183,7 +201,9 @@ async function reply(command) {
         addToHistory(command);
     }
 
-    printOnPage(command, CMDreply);
+    if (error != 3) {
+        printOnPage(command, CMDreply);
+    }
 }
 
 function delay(ms) {
@@ -199,7 +219,7 @@ async function printOnPage(messageThere, messageBack) {
         replyMessage.classList.add('reply');
         replyMessage.innerText = 'RESPONSE: ' + messageBack;
         if (cmds >= 0 && cmds < 10) {
-            let inputDiv = document.querySelector(`.a${cmds + 1}`);
+            let inputDiv = document.querySelector(`.a${cmds + 1}`); 
             let replyDiv = document.querySelector(`.a${cmds + 1}a`);
 
             if (error == 1) {
@@ -222,14 +242,14 @@ async function printOnPage(messageThere, messageBack) {
             window.location.href = '';
         }
         error = 0;
-    }
+        }
     else {
         
     }
 }
 
 function addToHistory(item) {
-    var time = new Date();
-    time = time.toLocaleTimeString();
-    history.push(` '${item}' at ${time}`);
+var time = new Date();
+time = time.toLocaleTimeString();
+history.push(` '${item}' at ${time}`);
 }

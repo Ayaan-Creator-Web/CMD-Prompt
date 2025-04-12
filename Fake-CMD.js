@@ -1,7 +1,7 @@
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.1.2';
+const version = '1.1.3';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();
@@ -132,7 +132,7 @@ async function reply(command) {
             CMDreply = `Error - '${without}' is not a number`;
         }
         else {
-            CMDreply = without;
+            CMDreply = without ** 2;
         }
     }
     else if (command.includes('isEven ')) {

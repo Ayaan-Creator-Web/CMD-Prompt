@@ -1,7 +1,8 @@
+var username = "not in our system. Please type in 'setname ...' to add your name";
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.1.5';
+const version = '1.2.0';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();
@@ -29,7 +30,7 @@ async function input() {
 
 async function reply(command) {
     if (command == 'help') {
-        CMDreply = "Commands include: help, stop, square, echo, print, status, shout, time, date, exit, ver, version, isOdd, isEven & Math. Type 'explain ...' to learn what these features do.";
+        CMDreply = "Commands include: help, stop, square, setname, who, echo, print, status, shout, time, date, exit, ver, version, isOdd, isEven & Math. Type 'explain ...' to learn what these features do.";
     }
     else if (command.includes('echo ')) {
         CMDreply = command.replace(/echo /gi, '');
@@ -84,6 +85,12 @@ async function reply(command) {
         else if (explain == 'stop') {
             CMDreply = "Disables terminal.";
         }
+        else if (explain == 'setname') {
+            CMDreply = "Sets a name to the user during terminal use.";
+        }
+        else if (explain == 'who') {
+            CMDreply = "Displays name.";
+        }
         else {
             if (error != 3) {
                 error = 1;
@@ -93,7 +100,7 @@ async function reply(command) {
     }
     else if (command == ('print')) {
         document.querySelector('.input').value = '';
-        print();
+        print();    
         CMDreply = 'Menu Closed';
     }
     else if (command == ('status')) {
@@ -184,7 +191,7 @@ async function reply(command) {
     else if (command == 'history') {
         if (error != 3) {
             if (history.length != 0) {
-                CMDreply = CMDreply = history.join('\n');
+                CMDreply = CMDreply = history.join(' - ');
             }
             else {
                 error = 1;
@@ -210,6 +217,14 @@ async function reply(command) {
         console.log('Terminal has stopped');
         await delay(260);
         error = 3;
+    }
+    else if (command.includes('setname')) {
+        var without = command.replace(/setname /g, '');
+        username = without;
+        CMDreply = `Name has been set to '${username}'`;
+    }
+    else if (command == 'who') {
+        CMDreply = `Your name is ${username}`;
     }
     else {
         if (error != 3) {

@@ -2,7 +2,7 @@ var username = "not in our system. Please type in 'setname ...' to add your name
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.2.3';
+const version = '1.3.0';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();
@@ -30,7 +30,7 @@ async function input() {
 
 async function reply(command) {
     if (command == 'help') {
-        CMDreply = "Commands include: help, stop, square, setname, who, echo, print, status, shout, time, date, exit, ver, version, isOdd, isEven & Math. Type 'explain ...' to learn what these features do.";
+        CMDreply = "Commands include: help, stop, square, setname, who, echo, print, filpcoin, status, shout, time, date, exit, ver, version, isOdd, isEven & Math. Type 'explain ...' to learn what these features do.";
     }
     else if (command.includes('echo ')) {
         CMDreply = command.replace(/echo /gi, '');
@@ -90,6 +90,9 @@ async function reply(command) {
         }
         else if (explain == 'who') {
             CMDreply = "Displays name.";
+        }
+        else if (explain == 'filpcoin') {
+            CMDreply = "Filps a coin.";
         }
         else {
             if (error != 3) {
@@ -157,6 +160,10 @@ async function reply(command) {
             }
         }
     }
+    else if (command == 'flipcoin') {
+        CMDreply = Math.random() < 0.5 ? 'Heads' : 'Tails';
+    }
+    
     else if (command.includes('isOdd ')) {
         var without = (command.replace(/isOdd /gi, ''));
         if (isNaN(without)) {

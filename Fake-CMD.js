@@ -2,17 +2,71 @@ var username = "not in our system. Please type in 'setname ...' to add your name
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.3.0';
+const version = '1.4.0';
 var CMDreply = '';
 var select = document.querySelector('.input');
+var previousCommand;
 select.focus();
-select.select();    
+select.select();
+
+//pageScroll();
+
+function pageScroll() {
+    window.scrollBy(0,1); // horizontal and vertical scroll increments
+    scrolldelay = setTimeout('pageScroll()',1);
+}
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'h' && event.ctrlKey) {
+        event.preventDefault();
+        if (wait == 0) {
+            reply('help');
+        }
+    }
+});
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'p' && event.ctrlKey) {
+        event.preventDefault();
+            document.querySelector('.input').value = previousCommand;
+        }
+});
+
+document.addEventListener('keydown', event => {
+    if (event.key === '/' && event.ctrlKey) {
+        event.preventDefault();
+        if (wait == 0) {
+            reply('shortcuts');
+        }
+    }
+});
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'e' && event.ctrlKey) {
+        event.preventDefault();
+        if (wait == 0) {
+            document.querySelector('.input').value = '';
+        }
+    }
+});
+
+/*
+document.addEventListener('keydown', event => {
+    if (event.key === 'any letter' && event.ctrlKey) {
+        event.preventDefault();
+        if (wait == 0) {
+            reply('any command');
+        }
+    }
+});
+*/
 
 let history = [];
 
 async function input() {
     if (wait == 0) {
         const input = document.querySelector('.input').value;
+        previousCommand = input;
         if (input == ('cls')) {
             document.querySelector('.input').value = '';
             window.location.href = '';
@@ -41,7 +95,10 @@ async function reply(command) {
             CMDreply = "Repeats whatever is typed after 'echo'.";
         }
         else if (explain == 'print') {
-            CMDreply = "Prints the terminal";
+            CMDreply = "Prints the terminal.";
+        }
+        else if (explain == 'shortcuts') {
+            CMDreply = "Displays all shortcuts.";
         }
         else if (explain == 'status') {
             CMDreply = "Displays the system status like 'running perfectly' or 'overheating'.";
@@ -94,6 +151,15 @@ async function reply(command) {
         else if (explain == 'filpcoin') {
             CMDreply = "Filps a coin.";
         }
+        else if (explain == 'Ctrl+/') {
+            CMDreply = "Displays all shortcuts.";
+        }
+        else if (explain == 'Ctrl+p') {
+            CMDreply = "Inputs previous command";
+        }
+        else if (explain == 'Ctrl+e') {
+            CMDreply = "Clears input box.";
+        }
         else {
             if (error != 3) {
                 error = 1;
@@ -115,10 +181,12 @@ async function reply(command) {
             CMDreply = 'System is overheating, please refresh';
         }
     }
+    /*
     else if (command.includes('shout ')) {
         var without = (command.replace(/shout /gi, ''));
         CMDreply = without.toUpperCase() + '!';
     }
+        */
     else if (command == ('time')) {
         var time = new Date();
         time = time.toLocaleTimeString();
@@ -128,6 +196,9 @@ async function reply(command) {
         var date = new Date();
         date = date.toLocaleDateString();
         CMDreply = date
+    }
+    else if (command == 'shortcuts') {
+        CMDreply = "Shortcuts include: Ctrl+/, Ctrl+h, Ctrl+p, Ctrl+e. Type 'explain ...' to learn what these shortcuts do.";
     }
     else if (command == ('exit')) {
         close();

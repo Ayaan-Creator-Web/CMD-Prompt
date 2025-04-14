@@ -2,7 +2,7 @@ var username = "not in our system. Please type in 'setname ...' to add your name
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.2.2';
+const version = '1.2.3';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();
@@ -247,7 +247,7 @@ async function reply(command) {
         }
     }
 
-    if (command.includes('history')) {
+    if (command == 'history' || command == 'cls history') {
         
     }
     else {

@@ -2,7 +2,7 @@ var username = "not in our system. Please type in 'setname ...' to add your name
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.2.0';
+const version = '1.2.1';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();
@@ -218,10 +218,20 @@ async function reply(command) {
         await delay(260);
         error = 3;
     }
-    else if (command.includes('setname')) {
+    else if (command.includes('setname ')) {
         var without = command.replace(/setname /g, '');
-        username = without;
-        CMDreply = `Name has been set to '${username}'`;
+        if (!without.trim()) {
+            CMDreply = "Error - 'setname' must be followed by a custom name.";
+            error = 1;
+        }
+        else {        
+            username = without;
+            CMDreply = `Name has been set to '${username}'`;
+        }
+    }
+    else if (command == 'setname') {
+        CMDreply = "Error - 'setname' must be followed by a custom name.";
+        error = 1;
     }
     else if (command == 'who') {
         CMDreply = `Your name is ${username}`;

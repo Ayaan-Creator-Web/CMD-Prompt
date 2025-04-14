@@ -2,11 +2,11 @@ var username = "not in our system. Please type in 'setname ...' to add your name
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.2.1';
+const version = '1.2.2';
 var CMDreply = '';
 var select = document.querySelector('.input');
 select.focus();
-select.select();
+select.select();    
 
 let history = [];
 
@@ -172,6 +172,10 @@ async function reply(command) {
             }
         }
     }
+    else if (command == 'Math' || command == 'Math ') {
+        CMDreply = "Error - 'Math' must be followed by an expression.";
+        error = 1;
+    }
     else if (command.includes('Math ')) {
             var without = command.replace(/Math /gi, '');
             try {
@@ -302,4 +306,3 @@ var time = new Date();
 time = time.toLocaleTimeString();
 history.push(` '${item}' at ${time}`);
 }
-//hi

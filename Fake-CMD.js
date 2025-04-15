@@ -2,10 +2,10 @@ var username = "not in our system. Please type in 'setname ...' to add your name
 var cmds = 0;
 var wait = 0;
 var error = 0;
-const version = '1.4.0';
+const version = '1.5.0';
 var CMDreply = '';
 var select = document.querySelector('.input');
-var previousCommand;
+var previousCommand = '';
 select.focus();
 select.select();
 
@@ -26,6 +26,15 @@ document.addEventListener('keydown', event => {
 });
 
 document.addEventListener('keydown', event => {
+    if (event.altKey && event.key === 'q') {
+        event.preventDefault();
+        if (wait == 0) {
+            reply('t4209tgh-s6419kwl-q9274gne-w8259pts');
+        }
+    }
+});
+
+document.addEventListener('keydown', event => {
     if (event.key === 'p' && event.ctrlKey) {
         event.preventDefault();
             document.querySelector('.input').value = previousCommand;
@@ -33,7 +42,7 @@ document.addEventListener('keydown', event => {
 });
 
 document.addEventListener('keydown', event => {
-    if (event.key === '/' && event.ctrlKey) {
+    if (event.key === '/' && event.ctrlKey) {8
         event.preventDefault();
         if (wait == 0) {
             reply('shortcuts');
@@ -160,6 +169,9 @@ async function reply(command) {
         else if (explain == 'Ctrl+e') {
             CMDreply = "Clears input box.";
         }
+        else if (explain == 'Alt+q') {
+            CMDreply = "Updates System.";
+        }
         else {
             if (error != 3) {
                 error = 1;
@@ -181,6 +193,11 @@ async function reply(command) {
             CMDreply = 'System is overheating, please refresh';
         }
     }
+    else if (command == ('t4209tgh-s6419kwl-q9274gne-w8259pts')) {
+        var time = new Date();
+        time = time.toLocaleTimeString();
+        CMDreply = `Updated at ${time}`;
+    }
     /*
     else if (command.includes('shout ')) {
         var without = (command.replace(/shout /gi, ''));
@@ -198,7 +215,7 @@ async function reply(command) {
         CMDreply = date
     }
     else if (command == 'shortcuts') {
-        CMDreply = "Shortcuts include: Ctrl+/, Ctrl+h, Ctrl+p, Ctrl+e. Type 'explain ...' to learn what these shortcuts do.";
+        CMDreply = "Shortcuts include: Ctrl+/, Ctrl+h, Ctrl+p, Ctrl+e & Alt+q. Type 'explain ...' to learn what these shortcuts do.";
     }
     else if (command == ('exit')) {
         close();
